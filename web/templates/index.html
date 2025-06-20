@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>g0x0 - File Hosting</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .upload-form {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        margin: 20px 0;
+      }
+      .result {
+        margin: 20px 0;
+        padding: 10px;
+        background: #f0f0f0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>g0x0 File Hosting</h1>
+
+    <div class="upload-form">
+      <h2>Upload File</h2>
+      <form hx-post="/" hx-target="#result" enctype="multipart/form-data">
+        <input type="file" name="file" required />
+        <br /><br />
+        <label>
+          Expires (hours):
+          <input type="number" name="expires" placeholder="Auto" />
+        </label>
+        <br /><br />
+        <label>
+          <input type="checkbox" name="secret" value="true" />
+          Secret link
+        </label>
+        <br /><br />
+        <button type="submit">Upload</button>
+      </form>
+    </div>
+
+    <div id="result"></div>
+  </body>
+</html>

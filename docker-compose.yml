@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: g0x0
+      POSTGRES_USER: g0x0
+      POSTGRES_PASSWORD: g0x0
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    check_health:
+      test: ["CMD-SHELL", "pg_isready -U g0x0"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgres://g0x0:g0x0@postgres:5432/g0x0?sslmode=disable
+      - STORAGE_PATH=/app/uploads
+    volumes:
+      - ./uploads:/app/uploads
+
+volumes:
+  postgres_data:
